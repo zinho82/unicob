@@ -87,7 +87,7 @@ inner join codigos cod1 on cod1.txt1=upper(ges.codaccion)
 inner join codigos cod2 on cod2.txt2=upper(ges.dertalle) "; 
                         $res=  mysql_query($sql,  conectar_mysql()) or die(mysql_error());
                         while($a200=  mysql_fetch_array($res)){
-                            $fecha=  explode('/', $a200['fecges']);
+                            $fecha=  explode('-', $a200['fecges']);
                             if(strlen($fecha[2])==2){
                                 $ano=date('Y');
                             }
@@ -109,13 +109,14 @@ inner join codigos cod2 on cod2.txt2=upper(ges.dertalle) ";
                                     .  chr(10);
                         }
                         fwrite($archivo,  $cont);
-                         $sql="select distinct '6001' as cod3,ges.mora_rut,ges.fecges ,ges.feccom,ges.cod_op,'UNICOB' as agente,cod1.cod,cod2.cod2,substring(ges.dertalle,1,56) as comentario,ges.fonocon from gestionescla ges
+                         $sql="select distinct '6006' as cod3,ges.mora_rut,ges.fecges ,ges.feccom,ges.cod_op,'UNICOB' as agente,cod1.cod,cod2.cod2,substring(ges.dertalle,1,56) as comentario,ges.fonocon from gestionescla ges
 inner join codigos cod1 on cod1.txt1=upper(ges.codaccion)
 inner join codigos cod2 on cod2.txt2=upper(ges.dertalle) and cod2.cod2='PP'";
                         $res=  mysql_query($sql,  conectar_mysql());
                         while($a600=  mysql_fetch_array($res)){
-                            $fecha=  explode('/', $a600['fecges']);
-                            $fechaprom=  explode('/', $a600['feccom']);
+                            $fecha=  explode('-', $a600['fecges']);
+                            $fechaprom=  explode('-', $a600['feccom']);
+                            $mora_rut=  str_replace(".","", $a600['mora_rut']);
                            $cont6.=
                                     $a600['cod3']
                                     . esp_der($a600['cod_op'],25)
@@ -126,7 +127,7 @@ inner join codigos cod2 on cod2.txt2=upper(ges.dertalle) and cod2.cod2='PP'";
                                     . esp_der($fecha[1].$fecha[0].$fecha[2] ,8)
                                     .'001001'
                                    .esp_der($fechaprom[1].$fechaprom[0].$fechaprom[2],8)
-                                   . cero_izq($a600['mora_rut'].'00', 15)
+                                   . cero_izq($mora_rut.'00', 15)
                                     .  chr(10); 
                         }
                         fwrite($archivo600,  $cont6);

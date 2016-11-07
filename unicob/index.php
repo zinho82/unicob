@@ -1,5 +1,5 @@
 <?php
-
+ 
 function conectar_mysql() {
 
     $link = mysql_connect('localhost', 'root', '')
@@ -48,7 +48,7 @@ function conectar_mysql() {
                         <tbody>
                             <?php
                            $sql = "select *,count(*) as num_gestiones from unicob.gestionescustomer gc 
-inner join unicob.codigos cod on cod.cod2=gc.resultado_gestion and (gc.fecha_comp is null or gc.fecha_comp='') and gc.contacto='Titular'
+inner join unicob.codigos cod on cod.cod2=gc.resultado_gestion and (gc.fecha_comp is null or gc.fecha_comp='') and gc.contacto='Titular' and month(gc.feccarga)='".date('m')."'
 group by gc.rut
 order by cod.prioridad asc
 ";
@@ -68,6 +68,7 @@ order by cod.prioridad asc
                     </table>
                 </div>
             </div>
+            
             <div class="panel panel-primary col-lg-6">
                 <div class="panel-heading">Resumen Recurrencia Titulares con Compromiso</div>
                 <div class="panel-body">
@@ -86,11 +87,11 @@ order by cod.prioridad asc
                         <tbody>
                             <?php
                           $sql = "select *,count(*) as num_gestiones from unicob.gestionescustomer gc 
-inner join unicob.codigos cod on cod.cod2=gc.resultado_gestion and gc.fecha_comp!='' and gc.contacto='Titular'
+inner join unicob.codigos cod on cod.cod2=gc.resultado_gestion and gc.fecha_comp!='' and gc.contacto='Titular' and month(gc.feccarga)='".date('m')."'
 group by gc.rut
 order by cod.prioridad asc;
 ";
-                            $res = mysql_query($sql, conectar_mysql());
+                            $res = mysql_query($sql, conectar_mysql()); 
                             while ($con = mysql_fetch_array($res)) {
                                 echo "<tr>"
                                 . "<td>" . $con['rut'] . "</td>"
@@ -106,6 +107,7 @@ order by cod.prioridad asc;
                     </table>
                 </div>
             </div>
+               
             <div class="panel panel-primary col-lg-12">
                 <div class="panel-heading">Registros recorridos Customer</div>
                 <div class="panel-body">
