@@ -63,7 +63,7 @@ function conectar_mysql() {
                         <tbody>
                             <?php
                             $sql = "select *,count(*) as num_gestiones from unicob.gestionescustomer gc 
-inner join unicob.codigos cod on cod.cod2=gc.resultado_gestion and (gc.fecha_comp is null or gc.fecha_comp='') and gc.contacto='Titular'
+inner join unicob.codigos cod on cod.cod2=gc.resultado_gestion and (gc.fecha_comp is null or gc.fecha_comp='') and gc.contacto='Titular' and month(gc.feccarga)='".date('m')."'
 group by gc.rut
 order by cod.prioridad asc;
 ";
