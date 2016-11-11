@@ -81,16 +81,17 @@ function cero_izq($campo,$largo){
                     $archivo600=fopen($arch600, 'a');
                     $archivo=  fopen($arch, 'a');
                     $cont='';
+                   $dia=date('d')-1;
                     $cont6="";
-                        $sql="select distinct '2006' as cod3,ges.fecges, ges.feccom,ges.cod_op,'UNICOB' as agente,cod1.cod,cod2.cod2,substring(ges.dertalle,1,56) as comentario,ges.fonocon from gestionescla ges
-inner join codigos cod1 on cod1.txt1=upper(ges.codaccion)
-inner join codigos cod2 on cod2.txt2=upper(ges.dertalle) "; 
+                    echo     $sql="select distinct '2006' as cod3,ges.fecges,ges.cod1,ges.cod2, ges.feccom,ges.cod_op,'UNICOB' as agente,substring(ges.dertalle,1,56) as comentario,ges.fonocon from gestionescla ges WHERE ges.fecges like '%".$dia.date('-m-')."%'
+
+"; 
                         $res=  mysql_query($sql,  conectar_mysql()) or die(mysql_error());
                         while($a200=  mysql_fetch_array($res)){
                             $fecha=  explode('-', $a200['fecges']);
                             if(strlen($fecha[2])==2){
                                 $ano=date('Y');
-                            }
+                            }  
                             else{
                                 $ano=$fecha[2];
                             }
@@ -99,7 +100,7 @@ inner join codigos cod2 on cod2.txt2=upper(ges.dertalle) ";
                                     . esp_der($a200['cod_op'],25)
                                     .  $fecha[1].$fecha[0].$ano.' 00:00:00'
                                     . cero_izq('1', 3)
-                                    .$a200['cod']
+                                    .$a200['cod1']
                                     .$a200['cod2']
                                     .  esp_der(' ', 2)
                                     .  esp_izq($a200['agente'], 8)
