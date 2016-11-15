@@ -1,45 +1,13 @@
+<?php require_once 'Superior.php'; ?>
 <?php
-
-function conectar_mysql() {
-
-    $link = mysql_connect('localhost', 'root', '')
-            or die('No se pudo conectar: ' . mysql_error());
-    mysql_select_db('unicob') or die('No se pudo seleccionar la base de datos');
-    return $link;
+var_dump($_GET);
+switch ($_GET['d']){
+    case 'a':echo  $sql = "select * from unicob.gestionescustomer ges where datediff(ges.fecha_comp,now())=-1";break;
+    case 'h': echo  $sql = "select * from unicob.gestionescustomer ges where datediff(ges.fecha_comp,now())=0";break;
+    case 'm':echo $sql = "select * from unicob.gestionescustomer ges where datediff(ges.fecha_comp,now())=1";break;
 }
 ?>
-
-<html>
-    <head>
-        <title>...:UNICOB:...</title>
-        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-        <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.css">
-
-        <script type="text/javascript" charset="utf8" src="http://cdn.datatables.net/1.10.12/js/jquery.dataTables.js"></script>
-
-        <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-        <!-- Optional theme -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css">
-        <!-- Latest compiled and minified JavaScript -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-        
-        <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js" ></script>
-        <script src="//cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
-        <script src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
-        <script src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
-        <script src="//cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
-        <script src="//cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
-        
-        
-    </head>
-
-
-    <body>
-        <div class="row">
+   <div class="row">
             <div class="panel panel-primary">
                 <div class="panel-heading">Registros Sin Compromiso y Contacto Titular</div>
                 <div class="panel-body">
@@ -62,11 +30,7 @@ function conectar_mysql() {
                         </thead>
                         <tbody>
                             <?php
-                            $sql = "select *,count(*) as num_gestiones from unicob.gestionescustomer gc 
-inner join unicob.codigos cod on cod.cod2=gc.resultado_gestion and (gc.fecha_comp is null or gc.fecha_comp='' or gc.fecha_comp='0000-00-00') and gc.contacto='Titular' and month(gc.feccarga)='" . date('m') . "'
-group by gc.rut
-order by cod.prioridad asc
-";
+                           
                             $res = mysql_query($sql, conectar_mysql());
                             while ($con = mysql_fetch_array($res)) {
                                 echo "<tr>"

@@ -1,6 +1,54 @@
 <?php require_once 'Superior.php'; ?>
 
-<div class="row">
+<div class="row col-lg-12">
+    <div class="panel panel-primary col-lg-2">
+        <div class="panel-heading">Dias Cargados mes de <?php echo date('M')?></div>
+        <div class="panel-body">
+            <table class="table" id="dias">
+                <thead>
+                <th>Dia</th>
+                <th>Registros</th>
+                </thead>
+                <tbody>
+                    <?php
+                    $sql="select count(*) as cant, fecha from gestionescustomer group by fecha";
+                    $res=  mysql_query($sql,  conectar_mysql());
+                    while($dia=  mysql_fetch_array($res)){
+                    echo "<tr><td>".$dia['fecha']."</td><td align='rigth'>".number_format($dia['cant'],0,',','.')."</td></tr>";
+                    }
+                    ?>
+                    
+                </tbody>
+                <tfoot></tfoot>
+            </table>
+        </div>
+    </div>
+    <div class="panel panel-primary col-lg-3">
+        <div class="panel-heading">Compromisos de Pago</div>
+        <div class="panel-body">
+            <table class="table">
+                <thead>
+                <th>Ayer</th>
+                <th>Hoy</th>
+                <th>Mañana</th>
+                </thead>
+                <tbody>
+                    <?php 
+                    $sql="select 
+count(*) as hoy,
+(select  count(*) from gestionescustomer cu where datediff(cu.fecha_comp,date(now()))=-1) as ayer ,
+(select  count(*) from gestionescustomer cu where datediff(cu.fecha_comp,date(now()))=1) as mana 
+from gestionescustomer cu where cu.fecha_comp=date(now())";
+                    $res=  mysql_query($sql,  conectar_mysql());
+                    $re=  mysql_fetch_assoc($res);
+                    echo "<tr><td><a href='compromisos.php?d=a'>".$re['ayer']."</a></td><td><a href='compromisos.php?d=h'>".$re['hoy']."</a></td><td><a href='compromisos.php?d=m'>".$re['mana']."</a></td></tr>";
+                    ?> 
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="row col-lg-12">
     <div class="panel panel-primary col-lg-6">
         <div class="panel-heading">Resumen Recurrencia Titulares sin compromiso</div>
         <div class="panel-body">
@@ -58,7 +106,7 @@ order by cod.prioridad asc
                 </thead>
                 <tbody>
                     <?php
-                    $sql = "select *,count(*) as num_gestiones from unicob.gestionescustomer gc 
+                    $sql = "select *,(select count(*) from unicob.gestionescustomer cons where cons.rut=gc.rut) as num_gestiones from unicob.gestionescustomer gc 
 inner join unicob.codigos cod on cod.cod2=gc.resultado_gestion and gc.fecha_comp!='0000-00-00' and gc.contacto='Titular' and month(gc.feccarga)='" . date('m') . "'
 group by gc.rut
 order by cod.prioridad asc;
@@ -133,6 +181,7 @@ order by cod.prioridad asc;
         $("#tablas").DataTable();
         $("#tablatsc").DataTable();
         $("#tablatc").DataTable();
+        $("#dias").DataTable();
     });
 
 </script>

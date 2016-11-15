@@ -81,11 +81,13 @@ function cero_izq($campo,$largo){
                     $archivo600=fopen($arch600, 'a');
                     $archivo=  fopen($arch, 'a');
                     $cont='';
-                   $dia=date('d')-1;
+                    $dia=date('d')-1;
                     $cont6="";
-                    echo     $sql="select distinct '2006' as cod3,ges.fecges,ges.cod1,ges.cod2, ges.feccom,ges.cod_op,'UNICOB' as agente,substring(ges.dertalle,1,56) as comentario,ges.fonocon from gestionescla ges WHERE ges.fecges like '%".$dia.date('-m-')."%'
+                        echo  $sql="select distinct '2006' as cod3,ges.fecges,ges.cod1,ges.cod2, ges.feccom,ges.cod_op,'UNICOB' as agente,substring(ges.dertalle,1,56) as comentario,ges.fonocon from gestionescla ges WHERE ges.fecges!='01-11-2016'
 
 "; 
+                        "ges.fecges like '%".$dia.date('-m-')."%' and " ;
+                         
                         $res=  mysql_query($sql,  conectar_mysql()) or die(mysql_error());
                         while($a200=  mysql_fetch_array($res)){
                             $fecha=  explode('-', $a200['fecges']);
@@ -110,9 +112,8 @@ function cero_izq($campo,$largo){
                                     .  chr(10);
                         }
                         fwrite($archivo,  $cont);
-                         $sql="select distinct '6006' as cod3,ges.mora_rut,ges.fecges ,ges.feccom,ges.cod_op,'UNICOB' as agente,cod1.cod,cod2.cod2,substring(ges.dertalle,1,56) as comentario,ges.fonocon from gestionescla ges
-inner join codigos cod1 on cod1.txt1=upper(ges.codaccion)
-inner join codigos cod2 on cod2.txt2=upper(ges.dertalle) and cod2.cod2='PP'";
+                          $sql="select distinct '6006' as cod3,ges.mora_rut,ges.fecges ,ges.feccom,ges.cod_op,'UNICOB' as agente,ges.cod1,ges.cod2,substring(ges.dertalle,1,56) as comentario,ges.fonocon from gestionescla ges
+where ges.cod2='PP'";
                         $res=  mysql_query($sql,  conectar_mysql());
                         while($a600=  mysql_fetch_array($res)){
                             $fecha=  explode('-', $a600['fecges']);
@@ -123,8 +124,8 @@ inner join codigos cod2 on cod2.txt2=upper(ges.dertalle) and cod2.cod2='PP'";
                                     . esp_der($a600['cod_op'],25)
                                    
                                    .  cero_der('0', 8)
-                                    .$a600['cod']
-                                    .$a600['cod2']
+                                    .$a600['cod1']
+                                    .$a600['cod2'] 
                                     . esp_der($fecha[1].$fecha[0].$fecha[2] ,8)
                                     .'001001'
                                    .esp_der($fechaprom[1].$fechaprom[0].$fechaprom[2],8)

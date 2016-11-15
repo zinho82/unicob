@@ -9,7 +9,7 @@ function conectar_mysql() {
 }
 
 function duplicado($rut, $rg, $fecha, $hora, $op) {
-     $sql = "select * from gestionescustomer where rut='$rut' and resultado_gestion='$rg' and fecha='$fecha' and hora_gestion='$hora' and rut_usuario='$op' ";
+    $sql = "select * from gestionescustomer where rut='$rut' and resultado_gestion='$rg' and fecha='$fecha' and hora_gestion='$hora' and rut_usuario='$op' ";
     $res = mysql_query($sql, conectar_mysql()) or die(mysql_error());
     return mysql_num_rows($res);
 }
@@ -29,13 +29,19 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQ
         $handle = fopen($filename, "r");
 
         while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
-            if (strlen($data[0]) > 0) {
-                if (duplicado($data[0], $data[3], substr($data[1], 6, 4) . "-" . substr($data[1], 3, 2) . "-" . substr($data[1], 0, 2), substr($data[1], -5), $data[10]) < 1) {
-                    //Insertamos los datos con los valores...
-                  $sql = "INSERT   into gestionescustomer values( '$data[0]','" . substr($data[1], 6, 4) . "-" . substr($data[1], 3, 2) . "-" . substr($data[1], 0, 2) . "','" . substr($data[1], -5) . "','$data[2]','$data[3]','$data[4]', '$data[5]', '$data[6]', '$data[7]', '$data[8]','" . substr($data[9], 6, 4) . "-" . substr($data[9], 3, 2) . "-" . substr($data[9], 0, 2) . "', '$data[10]', '$data[11]','" . date('Y-m-d G:i:s') . "')";
-                    mysql_query($sql, conectar_mysql()) or die(mysql_error());
+            if ($_POST['tipoarchivo'] == 2) {
+                if (strlen($data[0]) > 0) {
+                    if (duplicado($data[0], $data[3], substr($data[1], 6, 4) . "-" . substr($data[1], 3, 2) . "-" . substr($data[1], 0, 2), substr($data[1], -5), $data[10]) < 1) {
+                        //Insertamos los datos con los valores...
+                        $sql = "INSERT   into gestionescustomer values( '$data[0]','" . substr($data[1], 6, 4) . "-" . substr($data[1], 3, 2) . "-" . substr($data[1], 0, 2) . "','" . substr($data[1], -5) . "','$data[2]','$data[3]','$data[4]', '$data[5]', '$data[6]', '$data[7]', '$data[8]','" . substr($data[9], 6, 4) . "-" . substr($data[9], 3, 2) . "-" . substr($data[9], 0, 2) . "', '$data[10]', '$data[11]','" . date('Y-m-d G:i:s') . "')";
+                    }
                 }
             }
+            if ($_POST['tipoarchivo'] == 1) {
+             echo "Archivo pagos consumer";
+            }
+            mysql_query($sql, conectar_mysql()) or die(mysql_error());
+            
         }
         //cerramos la lectura del archivo "abrir archivo" con un "cerrar archivo"
         fclose($handle);
