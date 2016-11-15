@@ -61,12 +61,12 @@ function conectar_mysql() {
           </ul>
         </li>-->
       </ul>
-     <!-- <form class="navbar-form navbar-left">
+      <form class="navbar-form navbar-left">
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search">
+          <input type="text" class="navbar-form navbar-left" placeholder="Ingrese Rut a Consultar">
         </div>
-        <button type="submit" class="btn btn-default">Submit</button>
-      </form>-->
+          <button type="button" name="buscarut" id="buscarut" class="btn btn-default">Buscar</button>
+      </form>
       <!--<ul class="nav navbar-nav navbar-right">
         <li><a href="#">Link</a></li>
         <li class="dropdown">

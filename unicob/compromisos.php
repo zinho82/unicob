@@ -1,10 +1,9 @@
 <?php require_once 'Superior.php'; ?>
 <?php
-var_dump($_GET);
 switch ($_GET['d']){
-    case 'a':echo  $sql = "select * from unicob.gestionescustomer ges where datediff(ges.fecha_comp,now())=-1";break;
-    case 'h': echo  $sql = "select * from unicob.gestionescustomer ges where datediff(ges.fecha_comp,now())=0";break;
-    case 'm':echo $sql = "select * from unicob.gestionescustomer ges where datediff(ges.fecha_comp,now())=1";break;
+    case 'a':  $sql = "select * from unicob.gestionescustomer ges where datediff(ges.fecha_comp,now())=-1";break;
+    case 'h':   $sql = "select * from unicob.gestionescustomer ges where datediff(ges.fecha_comp,now())=0";break;
+    case 'm': $sql = "select * from unicob.gestionescustomer ges where datediff(ges.fecha_comp,now())=1";break;
 }
 ?>
    <div class="row">

@@ -41,7 +41,7 @@ count(*) as hoy,
 from gestionescustomer cu where cu.fecha_comp=date(now())";
                     $res=  mysql_query($sql,  conectar_mysql());
                     $re=  mysql_fetch_assoc($res);
-                    echo "<tr><td><a href='compromisos.php?d=a'>".$re['ayer']."</a></td><td><a href='compromisos.php?d=h'>".$re['hoy']."</a></td><td><a href='compromisos.php?d=m'>".$re['mana']."</a></td></tr>";
+                    echo "<tr><td><a title='Mostrar Compromiso' href='compromisos.php?d=a'>".$re['ayer']."</a></td><td><a title='Mostrar Compromiso' href='compromisos.php?d=h'>".$re['hoy']."</a></td><td><a title='Mostrar Compromiso' href='compromisos.php?d=m'>".$re['mana']."</a></td></tr>";
                     ?> 
                 </tbody>
             </table>

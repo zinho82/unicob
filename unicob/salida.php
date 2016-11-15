@@ -1,5 +1,5 @@
 <?php
-
+ 
 function conectar_mysql() {
 
     $link = mysql_connect('localhost', 'root', '')
